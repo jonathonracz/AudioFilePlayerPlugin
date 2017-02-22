@@ -9,8 +9,8 @@
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="AudioFilePlayerAU" pluginRTASCategory=""
               aaxIdentifier="com.NTwelve.AudioFilePlayer" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
-              jucerVersion="4.2.4" companyEmail="" companyName="NTwelve" buildAUv3="1"
-              pluginIsMidiEffectPlugin="0">
+              jucerVersion="4.3.1" companyEmail="" companyName="NTwelve" buildAUv3="1"
+              pluginIsMidiEffectPlugin="0" buildStandalone="0">
   <MAINGROUP id="tjuOXe" name="AudioFilePlayer">
     <FILE id="lFuAFH" name="AudioThumbnailComp.cpp" compile="1" resource="0"
           file="Source/AudioThumbnailComp.cpp"/>

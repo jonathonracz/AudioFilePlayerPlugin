@@ -1,11 +1,28 @@
+/*
+    PluginProcessor.cpp
+    Copyright (C) 2017 Jonathon Racz, ROLI Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
 AudioFilePlayerProcessor::AudioFilePlayerProcessor() :
-    readAheadThread("transport read ahead"),
+    AudioProcessor(BusesProperties().withOutput("Output", AudioChannelSet::stereo())),
     thumbnailCache(1),
-    AudioProcessor(BusesProperties().withOutput("Output", AudioChannelSet::stereo()))
+    readAheadThread("transport read ahead")
 {
     formatManager.registerBasicFormats();
     readAheadThread.startThread(3);
@@ -16,7 +33,6 @@ AudioFilePlayerProcessor::~AudioFilePlayerProcessor()
     transportSource.setSource(nullptr);
 }
 
-//==============================================================================
 const String AudioFilePlayerProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -47,8 +63,7 @@ double AudioFilePlayerProcessor::getTailLengthSeconds() const
 
 int AudioFilePlayerProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1;
 }
 
 int AudioFilePlayerProcessor::getCurrentProgram()
@@ -69,7 +84,6 @@ void AudioFilePlayerProcessor::changeProgramName(int index, const String& newNam
 {
 }
 
-//==============================================================================
 void AudioFilePlayerProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
@@ -88,7 +102,6 @@ void AudioFilePlayerProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffe
     transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));
 }
 
-//==============================================================================
 bool AudioFilePlayerProcessor::hasEditor() const
 {
     return true;
@@ -99,7 +112,6 @@ AudioProcessorEditor* AudioFilePlayerProcessor::createEditor()
     return new AudioFilePlayerEditor(*this);
 }
 
-//==============================================================================
 void AudioFilePlayerProcessor::getStateInformation(MemoryBlock& destData)
 {
     XmlElement xml("plugin-settings");
@@ -126,8 +138,6 @@ void AudioFilePlayerProcessor::setStateInformation(const void* data, int sizeInB
     }
 }
 
-//==============================================================================
-// This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new AudioFilePlayerProcessor();

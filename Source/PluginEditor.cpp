@@ -1,15 +1,28 @@
+/*
+    PluginEditor.cpp
+    Copyright (C) 2017 Jonathon Racz, ROLI Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
 AudioFilePlayerEditor::AudioFilePlayerEditor(AudioFilePlayerProcessor& p) :
     AudioProcessorEditor(&p),
     processor(p)
 {
-    addAndMakeVisible(followTransportButton);
-    followTransportButton.setButtonText("Follow Transport");
-    followTransportButton.addListener(this);
-
     thumbnail = new AudioThumbnailComp(processor.formatManager, processor.transportSource, processor.thumbnailCache, processor.currentlyLoadedFile);
     addAndMakeVisible(thumbnail);
     thumbnail->addChangeListener(this);
@@ -27,26 +40,23 @@ AudioFilePlayerEditor::AudioFilePlayerEditor(AudioFilePlayerProcessor& p) :
 AudioFilePlayerEditor::~AudioFilePlayerEditor()
 {
     thumbnail->removeChangeListener(this);
-    followTransportButton.removeListener(this);
 }
 
-//==============================================================================
 void AudioFilePlayerEditor::paint(Graphics& g)
 {
-    g.fillAll(Colours::darkgrey);
+    g.fillAll(Colours::grey);
 }
 
 void AudioFilePlayerEditor::resized()
 {
     Rectangle<int> r(getLocalBounds().reduced(4));
 
-    Rectangle<int> controls(r.removeFromBottom(64));
+    Rectangle<int> controls(r.removeFromBottom(32));
 
-    followTransportButton.setBounds(controls.removeFromTop(25));
     startStopButton.setBounds(controls);
 
     r.removeFromBottom(6);
-    thumbnail->setBounds(r.removeFromBottom(140));
+    thumbnail->setBounds(r.removeFromBottom(180));
     r.removeFromBottom(6);
 }
 
@@ -63,10 +73,6 @@ void AudioFilePlayerEditor::buttonClicked (Button* buttonThatWasClicked)
             processor.transportSource.setPosition(0);
             processor.transportSource.start();
         }
-    }
-    else if (buttonThatWasClicked == &followTransportButton)
-    {
-        thumbnail->setFollowsTransport(followTransportButton.getToggleState());
     }
 }
 
