@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="h8IpyS" name="AudioFilePlayer" projectType="audioplug" version="1.0.0"
-              bundleIdentifier="com.NTwelve.AudioFilePlayer" includeBinaryInAppConfig="1"
+<JUCERPROJECT id="h8IpyS" name="AudioFilePlayer" projectType="audioplug" version="2.0.0"
+              bundleIdentifier="com.jonathonracz.AudioFilePlayer" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
-              pluginName="AudioFilePlayer" pluginDesc="AudioFilePlayer" pluginManufacturer="NTwelve"
-              pluginManufacturerCode="NTlv" pluginCode="NTPl" pluginChannelConfigs=""
+              pluginName="AudioFilePlayer" pluginDesc="AudioFilePlayer" pluginManufacturer="Jonathon Racz"
+              pluginManufacturerCode="Racz" pluginCode="AFPl" pluginChannelConfigs=""
               pluginIsSynth="1" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="AudioFilePlayerAU" pluginRTASCategory=""
-              aaxIdentifier="com.NTwelve.AudioFilePlayer" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
-              jucerVersion="5.2.0" companyEmail="" companyName="NTwelve" buildAUv3="1"
-              pluginIsMidiEffectPlugin="0" buildStandalone="0" displaySplashScreen="1"
-              reportAppUsage="1" splashScreenColour="Dark" enableIAA="0" cppLanguageStandard="11"
-              companyCopyright="NTwelve">
+              aaxIdentifier="com.jonathonracz.AudioFilePlayer" pluginAAXCategory="2"
+              jucerVersion="5.3.2" companyEmail="" companyName="Jonathon Racz"
+              buildAUv3="1" pluginIsMidiEffectPlugin="0" buildStandalone="1"
+              displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
+              enableIAA="0" companyCopyright="Jonathon Racz" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST,buildVST3"
+              pluginCharacteristicsValue="pluginIsSynth" pluginAUMainType="'aumu'"
+              pluginVSTCategory="kPlugCategSynth" pluginVST3Category="Instrument">
   <MAINGROUP id="tjuOXe" name="AudioFilePlayer">
-    <FILE id="lFuAFH" name="AudioThumbnailComp.cpp" compile="1" resource="0"
-          file="Source/AudioThumbnailComp.cpp"/>
-    <FILE id="MXkcJl" name="AudioThumbnailComp.h" compile="0" resource="0"
-          file="Source/AudioThumbnailComp.h"/>
-    <FILE id="Yabvca" name="PluginProcessor.cpp" compile="1" resource="0"
-          file="Source/PluginProcessor.cpp"/>
-    <FILE id="LW9She" name="PluginProcessor.h" compile="0" resource="0"
-          file="Source/PluginProcessor.h"/>
-    <FILE id="veOUqS" name="PluginEditor.cpp" compile="1" resource="0"
-          file="Source/PluginEditor.cpp"/>
-    <FILE id="unqOmz" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    <FILE id="WYkom4" name="Identifiers.cpp" compile="1" resource="0" file="Source/Identifiers.cpp"/>
+    <FILE id="sDEA38" name="Identifiers.h" compile="0" resource="0" file="Source/Identifiers.h"/>
+    <FILE id="Yabvca" name="AudioFilePlayerProcessor.cpp" compile="1" resource="0"
+          file="Source/AudioFilePlayerProcessor.cpp"/>
+    <FILE id="LW9She" name="AudioFilePlayerProcessor.h" compile="0" resource="0"
+          file="Source/AudioFilePlayerProcessor.h"/>
+    <FILE id="veOUqS" name="AudioFilePlayerEditor.cpp" compile="1" resource="0"
+          file="Source/AudioFilePlayerEditor.cpp"/>
+    <FILE id="unqOmz" name="AudioFilePlayerEditor.h" compile="0" resource="0"
+          file="Source/AudioFilePlayerEditor.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2015 targetFolder="Builds/VisualStudio2015" vst3Folder="">
@@ -53,10 +54,10 @@
     </VS2015>
     <XCODE_MAC targetFolder="Builds/MacOSX" postbuildCommand="" vst3Folder="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="AudioFilePlayer" enablePluginBinaryCopyStep="1"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="0" optimisation="3" targetName="AudioFilePlayer" enablePluginBinaryCopyStep="1"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="AudioFilePlayer"
+                       enablePluginBinaryCopyStep="1"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="AudioFilePlayer"
+                       enablePluginBinaryCopyStep="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
@@ -88,5 +89,8 @@
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_MP3AUDIOFORMAT="enabled"/>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_MP3AUDIOFORMAT="1"/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>
