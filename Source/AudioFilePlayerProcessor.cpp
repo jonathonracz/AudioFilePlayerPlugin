@@ -28,11 +28,17 @@ AudioFilePlayerProcessor::AudioFilePlayerProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        ),
+      state (IDs::StateRoot),
       audioStreamThread ("Audio Disk Streaming"),
-      thumbnailCache (std::numeric_limits<int>::max())
+      thumbnailCache (std::numeric_limits<int>::max()),
+      audioFileName (state, IDs::AudioFileName, nullptr, {}),
+      audioFileLoaded (state, IDs::AudioFileLoaded, nullptr, false),
+      waveformLeftViewSecond (state, IDs::WaveformLeftViewSecond, nullptr, 0.0),
+      waveformRightViewSecond (state, IDs::WaveformRightViewSecond, nullptr, 0.0)
 {
     formatManager.registerBasicFormats();
     state.addListener (this);
+    audioStreamThread.startThread();
 }
 
 AudioFilePlayerProcessor::~AudioFilePlayerProcessor()
@@ -73,6 +79,7 @@ void AudioFilePlayerProcessor::prepareToPlay (double sampleRate, int samplesPerB
 
 void AudioFilePlayerProcessor::releaseResources()
 {
+    audioTransport.releaseResources();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -131,7 +138,7 @@ void AudioFilePlayerProcessor::setStateInformation (const void* data, int sizeIn
 
 void AudioFilePlayerProcessor::valueTreePropertyChanged (ValueTree &treeWhosePropertyHasChanged, const Identifier &property)
 {
-    if (property == IDs::FileToPlay)
+    if (property == IDs::AudioFileName)
     {
         suspendProcessing (true);
 
@@ -147,6 +154,8 @@ void AudioFilePlayerProcessor::valueTreePropertyChanged (ValueTree &treeWhosePro
             audioSource = std::make_unique<AudioFormatReaderSource> (rawReader, true);
             audioTransport.setSource (audioSource.get(), 32768, &audioStreamThread, rawReader->sampleRate, rawReader->numChannels);
             audioFileLoaded = true;
+            waveformLeftViewSecond = 0.0;
+            waveformRightViewSecond = audioTransport.getLengthInSeconds();
         }
 
         suspendProcessing (false);

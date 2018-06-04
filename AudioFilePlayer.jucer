@@ -16,6 +16,14 @@
               pluginCharacteristicsValue="pluginIsSynth" pluginAUMainType="'aumu'"
               pluginVSTCategory="kPlugCategSynth" pluginVST3Category="Instrument">
   <MAINGROUP id="tjuOXe" name="AudioFilePlayer">
+    <FILE id="blYGG5" name="AudioFileMiniMap.cpp" compile="1" resource="0"
+          file="Source/AudioFileMiniMap.cpp"/>
+    <FILE id="G6JZCr" name="AudioFileMiniMap.h" compile="0" resource="0"
+          file="Source/AudioFileMiniMap.h"/>
+    <FILE id="lo1Aza" name="AudioFileDragTarget.cpp" compile="1" resource="0"
+          file="Source/AudioFileDragTarget.cpp"/>
+    <FILE id="KJnmby" name="AudioFileDragTarget.h" compile="0" resource="0"
+          file="Source/AudioFileDragTarget.h"/>
     <FILE id="WYkom4" name="Identifiers.cpp" compile="1" resource="0" file="Source/Identifiers.cpp"/>
     <FILE id="sDEA38" name="Identifiers.h" compile="0" resource="0" file="Source/Identifiers.h"/>
     <FILE id="Yabvca" name="AudioFilePlayerProcessor.cpp" compile="1" resource="0"

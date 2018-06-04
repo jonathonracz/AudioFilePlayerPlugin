@@ -17,11 +17,22 @@
 
 #include "AudioFilePlayerProcessor.h"
 #include "AudioFilePlayerEditor.h"
+#include "Identifiers.h"
 
 AudioFilePlayerProcessorEditor::AudioFilePlayerProcessorEditor (AudioFilePlayerProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+    : AudioProcessorEditor (&p),
+      processor (p),
+      dragTarget (processor.getFormatManager(), processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr)),
+      miniMap (processor.getFormatManager(), processor.getThumbnailCache(),
+          processor.getState().getPropertyAsValue (IDs::WaveformLeftViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::WaveformRightViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr))
 {
     setSize (400, 300);
+    addAndMakeVisible (dragTarget);
+    dragTarget.setAlwaysOnTop (true);
+
+    addAndMakeVisible (miniMap);
 }
 
 AudioFilePlayerProcessorEditor::~AudioFilePlayerProcessorEditor()
@@ -39,4 +50,6 @@ void AudioFilePlayerProcessorEditor::paint (Graphics& g)
 
 void AudioFilePlayerProcessorEditor::resized()
 {
+    dragTarget.setBounds (getLocalBounds().withTrimmedTop (getHeight() / 2));
+    miniMap.setBounds (getLocalBounds().withHeight (getHeight() / 2));
 }

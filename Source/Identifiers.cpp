@@ -21,8 +21,10 @@ namespace IDs
 {
 #define DEFINE_ID(name) const Identifier name (#name);
 
-    DEFINE_ID (FileToPlay)
-    DEFINE_ID (FileIsLoaded)
+    DEFINE_ID (StateRoot)
+
+    DEFINE_ID (AudioFileName)
+    DEFINE_ID (AudioFileLoaded)
     DEFINE_ID (WaveformLeftViewSecond)
     DEFINE_ID (WaveformRightViewSecond)
 

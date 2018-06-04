@@ -18,23 +18,27 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "AudioFilePlayerProcessor.h"
-#include "AudioFileDragTarget.h"
-#include "AudioFileMiniMap.h"
 
-class AudioFilePlayerProcessorEditor  : public AudioProcessorEditor
+class AudioFileDragTarget   : public Component,
+                              public FileDragAndDropTarget
 {
 public:
-    AudioFilePlayerProcessorEditor (AudioFilePlayerProcessor&);
-    ~AudioFilePlayerProcessorEditor();
-
-    void paint (Graphics&) override;
-    void resized() override;
+    AudioFileDragTarget (AudioFormatManager& formatManager, Value filenameValue);
 
 private:
-    AudioFilePlayerProcessor& processor;
-    AudioFileDragTarget dragTarget;
-    AudioFileMiniMap miniMap;
+    AudioFormatManager& formatManager;
+    Value filenameValue;
+    bool isAcceptingDrag = false;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFilePlayerProcessorEditor)
+    bool willAccept (const StringArray &files);
+    void fadeToOppositeAlpha();
+
+    void paint (Graphics& g) override;
+
+    bool isInterestedInFileDrag (const StringArray &files) override;
+    void fileDragEnter (const StringArray &files, int x, int y) override;
+    void fileDragExit (const StringArray &files) override;
+    void filesDropped (const StringArray &files, int x, int y) override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFileDragTarget)
 };

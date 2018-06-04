@@ -23,8 +23,10 @@ namespace IDs
 {
 #define DECLARE_ID(name) extern const Identifier name;
 
-    DECLARE_ID (FileToPlay)
-    DECLARE_ID (FileIsLoaded)
+    DECLARE_ID (StateRoot)
+
+    DECLARE_ID (AudioFileName)
+    DECLARE_ID (AudioFileLoaded)
     DECLARE_ID (WaveformLeftViewSecond)
     DECLARE_ID (WaveformRightViewSecond)
 

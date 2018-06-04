@@ -54,6 +54,10 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    ValueTree getState() const { return state; }
+    AudioFormatManager& getFormatManager() { return formatManager; }
+    AudioThumbnailCache& getThumbnailCache() { return thumbnailCache; }
+
 private:
     ValueTree state;
     AudioFormatManager formatManager;
@@ -64,6 +68,8 @@ private:
 
     CachedValue<String> audioFileName;
     CachedValue<bool> audioFileLoaded;
+    CachedValue<double> waveformLeftViewSecond;
+    CachedValue<double> waveformRightViewSecond;
 
     void valueTreePropertyChanged (ValueTree &treeWhosePropertyHasChanged, const Identifier &property) override;
     void valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded) override {}
