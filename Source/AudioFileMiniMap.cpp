@@ -17,7 +17,41 @@
 
 #include "AudioFileMiniMap.h"
 
+class AudioFileMiniMap::WindowHighlight : public Component,
+                                          public Value::Listener
+{
+public:
+    WindowHighlight (AudioFileMiniMap& _owner)
+        : owner (_owner)
+    {
+        setInterceptsMouseClicks (false, false);
+        owner.windowLeft.addListener (this);
+        owner.windowRight.addListener (this);
+    }
 
+    void paint (Graphics& g) override
+    {
+        if (owner.thumbnail.getTotalLength() <= 0.0)
+            return;
+
+        int windowLeftPosition = owner.getPixelOfSecond (double (owner.windowLeft.getValue()));
+        int windowRightPosition = owner.getPixelOfSecond (double (owner.windowRight.getValue()));;
+
+        g.setColour (Colours::black);
+        Rectangle<int> miniMapHighlight (std::max (windowRightPosition - windowLeftPosition, 10), getHeight());
+        miniMapHighlight = miniMapHighlight.withCentre (
+            Point<int> (windowLeftPosition + ((windowRightPosition - windowLeftPosition) / 2), miniMapHighlight.getCentreY()));
+        g.drawRect (miniMapHighlight);
+    }
+
+    void valueChanged (Value& value) override
+    {
+        repaint();
+    }
+
+private:
+    AudioFileMiniMap& owner;
+};
 
 AudioFileMiniMap::AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
     AudioThumbnailCache& cacheToUse, Value _windowLeft, Value _windowRight,
@@ -25,12 +59,15 @@ AudioFileMiniMap::AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
     : windowLeft (_windowLeft), windowRight (_windowRight),
       filename (_filename), thumbnail (128, formatManagerToUse, cacheToUse)
 {
-    windowLeft.addListener (this);
-    windowRight.addListener (this);
     filename.addListener (this);
     thumbnail.addChangeListener (this);
     setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::DraggingHandCursor));
+
+    windowHighlight = std::unique_ptr<WindowHighlight> (new WindowHighlight (*this));
+    addAndMakeVisible (windowHighlight.get());
 }
+
+AudioFileMiniMap::~AudioFileMiniMap() = default;
 
 double AudioFileMiniMap::getSecondsPerPixel() const
 {
@@ -66,20 +103,15 @@ double AudioFileMiniMap::moveWindowRightEdge (double numSeconds)
     return secondsMoved;
 }
 
+void AudioFileMiniMap::resized()
+{
+    windowHighlight->setBounds (getLocalBounds());
+}
+
 void AudioFileMiniMap::paint (Graphics& g)
 {
     if (thumbnail.getTotalLength() > 0.0)
-    {
         thumbnail.drawChannels (g, getLocalBounds(), 0.0, thumbnail.getTotalLength(), 1.0f);
-        int windowLeftPosition = getPixelOfSecond (double (windowLeft.getValue()));
-        int windowRightPosition = getPixelOfSecond (double (windowRight.getValue()));;
-
-        g.setColour (Colours::black);
-        Rectangle<int> miniMapHighlight (std::max (windowRightPosition - windowLeftPosition, 10), getHeight());
-        miniMapHighlight = miniMapHighlight.withCentre (
-            Point<int> (windowLeftPosition + ((windowRightPosition - windowLeftPosition) / 2), miniMapHighlight.getCentreY()));
-        g.drawRect (miniMapHighlight);
-    }
 }
 
 void AudioFileMiniMap::mouseDown (const MouseEvent& event)
@@ -126,8 +158,6 @@ void AudioFileMiniMap::valueChanged (Value& value)
 {
     if (value == filename)
         thumbnail.setSource (new FileInputSource (File (filename.toString())));
-    else
-        repaint();
 }
 
 void AudioFileMiniMap::changeListenerCallback (ChangeBroadcaster* source)

@@ -12,10 +12,14 @@
               jucerVersion="5.3.2" companyEmail="" companyName="Jonathon Racz"
               buildAUv3="1" pluginIsMidiEffectPlugin="0" buildStandalone="1"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
-              enableIAA="0" companyCopyright="Jonathon Racz" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST,buildVST3"
+              enableIAA="0" companyCopyright="Jonathon Racz" pluginFormats="buildVST,buildVST3,buildAU,buildAUv3,buildStandalone"
               pluginCharacteristicsValue="pluginIsSynth" pluginAUMainType="'aumu'"
               pluginVSTCategory="kPlugCategSynth" pluginVST3Category="Instrument">
   <MAINGROUP id="tjuOXe" name="AudioFilePlayer">
+    <FILE id="y4RDZR" name="AudioFileViewer.cpp" compile="1" resource="0"
+          file="Source/AudioFileViewer.cpp"/>
+    <FILE id="blRJEO" name="AudioFileViewer.h" compile="0" resource="0"
+          file="Source/AudioFileViewer.h"/>
     <FILE id="blYGG5" name="AudioFileMiniMap.cpp" compile="1" resource="0"
           file="Source/AudioFileMiniMap.cpp"/>
     <FILE id="G6JZCr" name="AudioFileMiniMap.h" compile="0" resource="0"

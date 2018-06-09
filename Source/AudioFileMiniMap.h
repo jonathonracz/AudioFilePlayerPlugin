@@ -27,8 +27,13 @@ public:
     AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
         AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
         Value filename);
+    ~AudioFileMiniMap();
 
 private:
+    class WindowHighlight;
+    friend class WindowHighlight;
+    std::unique_ptr<WindowHighlight> windowHighlight;
+
     Value windowLeft;
     Value windowRight;
     Value filename;
@@ -40,6 +45,7 @@ private:
     double moveWindowLeftEdge (double numSeconds);
     double moveWindowRightEdge (double numSeconds);
 
+    void resized() override;
     void paint (Graphics& g) override;
     void mouseDown (const MouseEvent& event) override;
     void mouseUp (const MouseEvent& event) override;
