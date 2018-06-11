@@ -27,8 +27,9 @@ namespace IDs
 
     DECLARE_ID (AudioFileName)
     DECLARE_ID (AudioFileLoaded)
-    DECLARE_ID (WaveformLeftViewSecond)
-    DECLARE_ID (WaveformRightViewSecond)
+    DECLARE_ID (AudioFileLengthSeconds)
+    DECLARE_ID (AudioFileLeftViewSecond)
+    DECLARE_ID (AudioFileRightViewSecond)
 
 #undef DECLARE_ID
 }

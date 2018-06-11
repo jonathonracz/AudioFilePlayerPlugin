@@ -18,38 +18,32 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "AudioFileMiniMapWaveform.h"
+#include "AudioFileMiniMapHighlight.h"
 
-class AudioFileMiniMap  : public Component,
-                          public Value::Listener,
-                          public ChangeListener
+class AudioFileMiniMap  : public Component
 {
 public:
     AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
         AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
-        Value filename);
+        Value lengthSeconds, Value filename);
     ~AudioFileMiniMap();
 
 private:
-    class WindowHighlight;
-    friend class WindowHighlight;
-    std::unique_ptr<WindowHighlight> windowHighlight;
+    AudioFileMiniMapWaveform waveform;
+    AudioFileMiniMapHighlight highlight;
 
     Value windowLeft;
     Value windowRight;
-    Value filename;
-    AudioThumbnail thumbnail;
+    Value lengthSeconds;
     Point<int> lastMouseDragOffset;
 
     double getSecondsPerPixel() const;
-    int getPixelOfSecond (double second) const;
     double moveWindowLeftEdge (double numSeconds);
     double moveWindowRightEdge (double numSeconds);
 
     void resized() override;
-    void paint (Graphics& g) override;
     void mouseDown (const MouseEvent& event) override;
     void mouseUp (const MouseEvent& event) override;
     void mouseDrag (const MouseEvent& event) override;
-    void valueChanged (Value& value) override;
-    void changeListenerCallback (ChangeBroadcaster* source) override;
 };

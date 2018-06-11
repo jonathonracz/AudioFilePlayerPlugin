@@ -68,8 +68,9 @@ private:
 
     CachedValue<String> audioFileName;
     CachedValue<bool> audioFileLoaded;
-    CachedValue<double> waveformLeftViewSecond;
-    CachedValue<double> waveformRightViewSecond;
+    CachedValue<double> audioFileLengthSeconds;
+    CachedValue<double> audioFileLeftViewSecond;
+    CachedValue<double> audioFileRightViewSecond;
 
     void valueTreePropertyChanged (ValueTree &treeWhosePropertyHasChanged, const Identifier &property) override;
     void valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded) override {}

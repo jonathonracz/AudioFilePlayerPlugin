@@ -15,19 +15,26 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Identifiers.h"
+#pragma once
 
-namespace IDs
+#include "JuceHeader.h"
+
+class AudioFileMiniMapHighlight : public Component,
+                                  public Value::Listener
 {
-#define DEFINE_ID(name) const Identifier name (#name);
+public:
+    AudioFileMiniMapHighlight (Value windowLeft, Value windowRight,
+        Value lengthSeconds);
 
-    DEFINE_ID (StateRoot)
+public:
+    Value windowLeft;
+    Value windowRight;
+    Value lengthSeconds;
 
-    DEFINE_ID (AudioFileName)
-    DEFINE_ID (AudioFileLoaded)
-    DEFINE_ID (AudioFileLengthSeconds)
-    DEFINE_ID (AudioFileLeftViewSecond)
-    DEFINE_ID (AudioFileRightViewSecond)
+    int getPixelOfSecond (double second) const;
 
-#undef DEFINE_ID
-}
+    void paint (Graphics& g) override;
+    void valueChanged (Value &value) override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFileMiniMapHighlight)
+};

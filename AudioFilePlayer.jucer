@@ -16,28 +16,44 @@
               pluginCharacteristicsValue="pluginIsSynth" pluginAUMainType="'aumu'"
               pluginVSTCategory="kPlugCategSynth" pluginVST3Category="Instrument">
   <MAINGROUP id="tjuOXe" name="AudioFilePlayer">
-    <FILE id="y4RDZR" name="AudioFileViewer.cpp" compile="1" resource="0"
-          file="Source/AudioFileViewer.cpp"/>
-    <FILE id="blRJEO" name="AudioFileViewer.h" compile="0" resource="0"
-          file="Source/AudioFileViewer.h"/>
-    <FILE id="blYGG5" name="AudioFileMiniMap.cpp" compile="1" resource="0"
-          file="Source/AudioFileMiniMap.cpp"/>
-    <FILE id="G6JZCr" name="AudioFileMiniMap.h" compile="0" resource="0"
-          file="Source/AudioFileMiniMap.h"/>
     <FILE id="lo1Aza" name="AudioFileDragTarget.cpp" compile="1" resource="0"
           file="Source/AudioFileDragTarget.cpp"/>
     <FILE id="KJnmby" name="AudioFileDragTarget.h" compile="0" resource="0"
           file="Source/AudioFileDragTarget.h"/>
-    <FILE id="WYkom4" name="Identifiers.cpp" compile="1" resource="0" file="Source/Identifiers.cpp"/>
-    <FILE id="sDEA38" name="Identifiers.h" compile="0" resource="0" file="Source/Identifiers.h"/>
-    <FILE id="Yabvca" name="AudioFilePlayerProcessor.cpp" compile="1" resource="0"
-          file="Source/AudioFilePlayerProcessor.cpp"/>
-    <FILE id="LW9She" name="AudioFilePlayerProcessor.h" compile="0" resource="0"
-          file="Source/AudioFilePlayerProcessor.h"/>
+    <FILE id="blYGG5" name="AudioFileMiniMap.cpp" compile="1" resource="0"
+          file="Source/AudioFileMiniMap.cpp"/>
+    <FILE id="G6JZCr" name="AudioFileMiniMap.h" compile="0" resource="0"
+          file="Source/AudioFileMiniMap.h"/>
+    <FILE id="vo7kOn" name="AudioFileMiniMapHighlight.cpp" compile="1"
+          resource="0" file="Source/AudioFileMiniMapHighlight.cpp"/>
+    <FILE id="x9pfrn" name="AudioFileMiniMapHighlight.h" compile="0" resource="0"
+          file="Source/AudioFileMiniMapHighlight.h"/>
+    <FILE id="tVbqR0" name="AudioFileMiniMapWaveform.cpp" compile="1" resource="0"
+          file="Source/AudioFileMiniMapWaveform.cpp"/>
+    <FILE id="RxBS98" name="AudioFileMiniMapWaveform.h" compile="0" resource="0"
+          file="Source/AudioFileMiniMapWaveform.h"/>
     <FILE id="veOUqS" name="AudioFilePlayerEditor.cpp" compile="1" resource="0"
           file="Source/AudioFilePlayerEditor.cpp"/>
     <FILE id="unqOmz" name="AudioFilePlayerEditor.h" compile="0" resource="0"
           file="Source/AudioFilePlayerEditor.h"/>
+    <FILE id="Yabvca" name="AudioFilePlayerProcessor.cpp" compile="1" resource="0"
+          file="Source/AudioFilePlayerProcessor.cpp"/>
+    <FILE id="LW9She" name="AudioFilePlayerProcessor.h" compile="0" resource="0"
+          file="Source/AudioFilePlayerProcessor.h"/>
+    <FILE id="TqoQaN" name="AudioFileTimeline.cpp" compile="1" resource="0"
+          file="Source/AudioFileTimeline.cpp"/>
+    <FILE id="pm0UMG" name="AudioFileTimeline.h" compile="0" resource="0"
+          file="Source/AudioFileTimeline.h"/>
+    <FILE id="zJSw9A" name="AudioFileTimelineRuler.cpp" compile="1" resource="0"
+          file="Source/AudioFileTimelineRuler.cpp"/>
+    <FILE id="KyY7mQ" name="AudioFileTimelineRuler.h" compile="0" resource="0"
+          file="Source/AudioFileTimelineRuler.h"/>
+    <FILE id="JkILKo" name="AudioFileTimelineWaveform.cpp" compile="1"
+          resource="0" file="Source/AudioFileTimelineWaveform.cpp"/>
+    <FILE id="rSTTxD" name="AudioFileTimelineWaveform.h" compile="0" resource="0"
+          file="Source/AudioFileTimelineWaveform.h"/>
+    <FILE id="WYkom4" name="Identifiers.cpp" compile="1" resource="0" file="Source/Identifiers.cpp"/>
+    <FILE id="sDEA38" name="Identifiers.h" compile="0" resource="0" file="Source/Identifiers.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2015 targetFolder="Builds/VisualStudio2015" vst3Folder="">

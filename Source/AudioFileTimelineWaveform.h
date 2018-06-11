@@ -15,19 +15,4 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Identifiers.h"
-
-namespace IDs
-{
-#define DEFINE_ID(name) const Identifier name (#name);
-
-    DEFINE_ID (StateRoot)
-
-    DEFINE_ID (AudioFileName)
-    DEFINE_ID (AudioFileLoaded)
-    DEFINE_ID (AudioFileLengthSeconds)
-    DEFINE_ID (AudioFileLeftViewSecond)
-    DEFINE_ID (AudioFileRightViewSecond)
-
-#undef DEFINE_ID
-}
+#pragma once

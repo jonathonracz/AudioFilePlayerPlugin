@@ -17,66 +17,24 @@
 
 #include "AudioFileMiniMap.h"
 
-class AudioFileMiniMap::WindowHighlight : public Component,
-                                          public Value::Listener
-{
-public:
-    WindowHighlight (AudioFileMiniMap& _owner)
-        : owner (_owner)
-    {
-        setInterceptsMouseClicks (false, false);
-        owner.windowLeft.addListener (this);
-        owner.windowRight.addListener (this);
-    }
-
-    void paint (Graphics& g) override
-    {
-        if (owner.thumbnail.getTotalLength() <= 0.0)
-            return;
-
-        int windowLeftPosition = owner.getPixelOfSecond (double (owner.windowLeft.getValue()));
-        int windowRightPosition = owner.getPixelOfSecond (double (owner.windowRight.getValue()));;
-
-        g.setColour (Colours::black);
-        Rectangle<int> miniMapHighlight (std::max (windowRightPosition - windowLeftPosition, 10), getHeight());
-        miniMapHighlight = miniMapHighlight.withCentre (
-            Point<int> (windowLeftPosition + ((windowRightPosition - windowLeftPosition) / 2), miniMapHighlight.getCentreY()));
-        g.drawRect (miniMapHighlight);
-    }
-
-    void valueChanged (Value& value) override
-    {
-        repaint();
-    }
-
-private:
-    AudioFileMiniMap& owner;
-};
-
 AudioFileMiniMap::AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
     AudioThumbnailCache& cacheToUse, Value _windowLeft, Value _windowRight,
-    Value _filename)
-    : windowLeft (_windowLeft), windowRight (_windowRight),
-      filename (_filename), thumbnail (128, formatManagerToUse, cacheToUse)
+    Value _lengthSeconds, Value _filename)
+    : waveform (formatManagerToUse, cacheToUse, _filename),
+      highlight (_windowLeft, _windowRight, _lengthSeconds),
+      windowLeft (_windowLeft), windowRight (_windowRight),
+      lengthSeconds (_lengthSeconds)
 {
-    filename.addListener (this);
-    thumbnail.addChangeListener (this);
     setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::DraggingHandCursor));
-
-    windowHighlight = std::unique_ptr<WindowHighlight> (new WindowHighlight (*this));
-    addAndMakeVisible (windowHighlight.get());
+    addAndMakeVisible (waveform);
+    addAndMakeVisible (highlight);
 }
 
 AudioFileMiniMap::~AudioFileMiniMap() = default;
 
 double AudioFileMiniMap::getSecondsPerPixel() const
 {
-    return thumbnail.getTotalLength() / getWidth();
-}
-
-int AudioFileMiniMap::getPixelOfSecond (double second) const
-{
-    return static_cast<int> ((getWidth() / thumbnail.getTotalLength()) * second);
+    return double (lengthSeconds.getValue()) / getWidth();
 }
 
 double AudioFileMiniMap::moveWindowLeftEdge (double numSeconds)
@@ -95,7 +53,7 @@ double AudioFileMiniMap::moveWindowRightEdge (double numSeconds)
 {
     double secondsMoved = 0.0;
     if (numSeconds > 0.0) // Moving right edge right
-        secondsMoved = std::min (numSeconds, thumbnail.getTotalLength() - double (windowRight.getValue()));
+        secondsMoved = std::min (numSeconds, double (lengthSeconds.getValue()) - double (windowRight.getValue()));
     else if (numSeconds < 0.0) // Moving right edge left
         secondsMoved = std::max (numSeconds, double (windowLeft.getValue()) - double (windowRight.getValue()));
 
@@ -105,13 +63,8 @@ double AudioFileMiniMap::moveWindowRightEdge (double numSeconds)
 
 void AudioFileMiniMap::resized()
 {
-    windowHighlight->setBounds (getLocalBounds());
-}
-
-void AudioFileMiniMap::paint (Graphics& g)
-{
-    if (thumbnail.getTotalLength() > 0.0)
-        thumbnail.drawChannels (g, getLocalBounds(), 0.0, thumbnail.getTotalLength(), 1.0f);
+    waveform.setBounds (getLocalBounds());
+    highlight.setBounds (getLocalBounds());
 }
 
 void AudioFileMiniMap::mouseDown (const MouseEvent& event)
@@ -152,15 +105,4 @@ void AudioFileMiniMap::mouseDrag (const MouseEvent& event)
     }
 
     lastMouseDragOffset = event.getOffsetFromDragStart();
-}
-
-void AudioFileMiniMap::valueChanged (Value& value)
-{
-    if (value == filename)
-        thumbnail.setSource (new FileInputSource (File (filename.toString())));
-}
-
-void AudioFileMiniMap::changeListenerCallback (ChangeBroadcaster* source)
-{
-    repaint();
 }

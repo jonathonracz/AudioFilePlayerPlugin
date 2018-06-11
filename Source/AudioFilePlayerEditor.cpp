@@ -24,8 +24,9 @@ AudioFilePlayerProcessorEditor::AudioFilePlayerProcessorEditor (AudioFilePlayerP
       processor (p),
       dragTarget (processor.getFormatManager(), processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr)),
       miniMap (processor.getFormatManager(), processor.getThumbnailCache(),
-          processor.getState().getPropertyAsValue (IDs::WaveformLeftViewSecond, nullptr),
-          processor.getState().getPropertyAsValue (IDs::WaveformRightViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileLeftViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileRightViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileLengthSeconds, nullptr),
           processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr))
 {
     setSize (400, 300);

@@ -33,8 +33,9 @@ AudioFilePlayerProcessor::AudioFilePlayerProcessor()
       thumbnailCache (std::numeric_limits<int>::max()),
       audioFileName (state, IDs::AudioFileName, nullptr, {}),
       audioFileLoaded (state, IDs::AudioFileLoaded, nullptr, false),
-      waveformLeftViewSecond (state, IDs::WaveformLeftViewSecond, nullptr, 0.0),
-      waveformRightViewSecond (state, IDs::WaveformRightViewSecond, nullptr, 0.0)
+      audioFileLengthSeconds (state, IDs::AudioFileLengthSeconds, nullptr, 0.0),
+      audioFileLeftViewSecond (state, IDs::AudioFileLeftViewSecond, nullptr, 0.0),
+      audioFileRightViewSecond (state, IDs::AudioFileRightViewSecond, nullptr, 0.0)
 {
     formatManager.registerBasicFormats();
     state.addListener (this);
@@ -154,8 +155,9 @@ void AudioFilePlayerProcessor::valueTreePropertyChanged (ValueTree &treeWhosePro
             audioSource = std::make_unique<AudioFormatReaderSource> (rawReader, true);
             audioTransport.setSource (audioSource.get(), 32768, &audioStreamThread, rawReader->sampleRate, rawReader->numChannels);
             audioFileLoaded = true;
-            waveformLeftViewSecond = 0.0;
-            waveformRightViewSecond = audioTransport.getLengthInSeconds();
+            audioFileLengthSeconds = audioTransport.getLengthInSeconds();
+            audioFileLeftViewSecond = 0.0;
+            audioFileRightViewSecond = audioFileLengthSeconds.get();
         }
 
         suspendProcessing (false);
