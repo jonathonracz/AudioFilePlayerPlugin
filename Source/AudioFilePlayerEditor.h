@@ -21,6 +21,7 @@
 #include "AudioFilePlayerProcessor.h"
 #include "AudioFileDragTarget.h"
 #include "AudioFileMiniMap.h"
+#include "AudioFileTimeline.h"
 
 class AudioFilePlayerProcessorEditor  : public AudioProcessorEditor
 {
@@ -35,6 +36,7 @@ private:
     AudioFilePlayerProcessor& processor;
     AudioFileDragTarget dragTarget;
     AudioFileMiniMap miniMap;
+    AudioFileTimeline timeline;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFilePlayerProcessorEditor)
 };

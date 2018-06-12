@@ -27,13 +27,17 @@ AudioFilePlayerProcessorEditor::AudioFilePlayerProcessorEditor (AudioFilePlayerP
           processor.getState().getPropertyAsValue (IDs::AudioFileLeftViewSecond, nullptr),
           processor.getState().getPropertyAsValue (IDs::AudioFileRightViewSecond, nullptr),
           processor.getState().getPropertyAsValue (IDs::AudioFileLengthSeconds, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr)),
+      timeline (processor.getFormatManager(), processor.getThumbnailCache(),
+          processor.getState().getPropertyAsValue (IDs::AudioFileLeftViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileRightViewSecond, nullptr),
+          processor.getState().getPropertyAsValue (IDs::AudioFileLengthSeconds, nullptr),
           processor.getState().getPropertyAsValue (IDs::AudioFileName, nullptr))
 {
     setSize (400, 300);
     addAndMakeVisible (dragTarget);
-    dragTarget.setAlwaysOnTop (true);
-
     addAndMakeVisible (miniMap);
+    addAndMakeVisible (timeline);
 }
 
 AudioFilePlayerProcessorEditor::~AudioFilePlayerProcessorEditor()
@@ -51,6 +55,10 @@ void AudioFilePlayerProcessorEditor::paint (Graphics& g)
 
 void AudioFilePlayerProcessorEditor::resized()
 {
-    dragTarget.setBounds (getLocalBounds().withTrimmedTop (getHeight() / 2));
-    miniMap.setBounds (getLocalBounds().withHeight (getHeight() / 2));
+    FlexBox layout;
+    layout.flexDirection = FlexBox::Direction::column;
+    layout.items.add (FlexItem (miniMap).withFlex (1.0f));
+    layout.items.add (FlexItem (timeline).withFlex (1.0f));
+    layout.items.add (FlexItem (dragTarget).withFlex (1.0f));
+    layout.performLayout (getLocalBounds());
 }

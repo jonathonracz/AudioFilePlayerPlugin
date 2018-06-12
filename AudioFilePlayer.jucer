@@ -32,6 +32,10 @@
           file="Source/AudioFileMiniMapWaveform.cpp"/>
     <FILE id="RxBS98" name="AudioFileMiniMapWaveform.h" compile="0" resource="0"
           file="Source/AudioFileMiniMapWaveform.h"/>
+    <FILE id="RM0h9H" name="AudioFileNavigationControl.cpp" compile="1"
+          resource="0" file="Source/AudioFileNavigationControl.cpp"/>
+    <FILE id="k29Rer" name="AudioFileNavigationControl.h" compile="0" resource="0"
+          file="Source/AudioFileNavigationControl.h"/>
     <FILE id="veOUqS" name="AudioFilePlayerEditor.cpp" compile="1" resource="0"
           file="Source/AudioFilePlayerEditor.cpp"/>
     <FILE id="unqOmz" name="AudioFilePlayerEditor.h" compile="0" resource="0"

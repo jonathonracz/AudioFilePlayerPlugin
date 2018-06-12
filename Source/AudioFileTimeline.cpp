@@ -16,3 +16,21 @@
 */
 
 #include "AudioFileTimeline.h"
+
+AudioFileTimeline::AudioFileTimeline (AudioFormatManager& formatManagerToUse,
+    AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
+    Value lengthSeconds, Value filename)
+    : waveform (formatManagerToUse, cacheToUse, windowLeft, windowRight,
+          filename),
+      navigationControl (windowLeft, windowRight, lengthSeconds,
+          AudioFileNavigationControl::ControlFrameOfReference::windowLength)
+{
+    addAndMakeVisible (waveform);
+    addAndMakeVisible (navigationControl);
+}
+
+void AudioFileTimeline::resized()
+{
+    waveform.setBounds (getLocalBounds());
+    navigationControl.setBounds (getLocalBounds());
+}

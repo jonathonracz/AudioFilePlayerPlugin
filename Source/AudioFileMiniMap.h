@@ -20,6 +20,7 @@
 #include "JuceHeader.h"
 #include "AudioFileMiniMapWaveform.h"
 #include "AudioFileMiniMapHighlight.h"
+#include "AudioFileNavigationControl.h"
 
 class AudioFileMiniMap  : public Component
 {
@@ -27,23 +28,15 @@ public:
     AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
         AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
         Value lengthSeconds, Value filename);
-    ~AudioFileMiniMap();
 
 private:
     AudioFileMiniMapWaveform waveform;
     AudioFileMiniMapHighlight highlight;
+    AudioFileNavigationControl navigationControl;
 
     Value windowLeft;
     Value windowRight;
     Value lengthSeconds;
-    Point<int> lastMouseDragOffset;
-
-    double getSecondsPerPixel() const;
-    double moveWindowLeftEdge (double numSeconds);
-    double moveWindowRightEdge (double numSeconds);
 
     void resized() override;
-    void mouseDown (const MouseEvent& event) override;
-    void mouseUp (const MouseEvent& event) override;
-    void mouseDrag (const MouseEvent& event) override;
 };

@@ -16,3 +16,27 @@
 */
 
 #pragma once
+
+#include "JuceHeader.h"
+
+class AudioFileTimelineWaveform : public Component,
+                                  public Value::Listener,
+                                  public ChangeListener
+{
+public:
+    AudioFileTimelineWaveform (AudioFormatManager& formatManagerToUse,
+        AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
+        Value filename);
+
+private:
+    AudioThumbnail thumbnail;
+    Value windowLeft;
+    Value windowRight;
+    Value filename;
+
+    void paint (Graphics& g) override;
+    void valueChanged (Value& value) override;
+    void changeListenerCallback (ChangeBroadcaster* source) override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFileTimelineWaveform)
+};

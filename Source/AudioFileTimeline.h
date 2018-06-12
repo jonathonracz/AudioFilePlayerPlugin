@@ -18,9 +18,21 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "AudioFileTimelineWaveform.h"
+#include "AudioFileNavigationControl.h"
 
-class AudioFileTimeline : public Component,
-                          public Value::Listener
+class AudioFileTimeline : public Component
 {
 public:
+    AudioFileTimeline (AudioFormatManager& formatManagerToUse,
+        AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
+        Value lengthSeconds, Value filename);
+
+private:
+    AudioFileTimelineWaveform waveform;
+    AudioFileNavigationControl navigationControl;
+
+    void resized() override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioFileTimeline)
 };

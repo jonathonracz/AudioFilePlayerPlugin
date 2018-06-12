@@ -22,87 +22,19 @@ AudioFileMiniMap::AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
     Value _lengthSeconds, Value _filename)
     : waveform (formatManagerToUse, cacheToUse, _filename),
       highlight (_windowLeft, _windowRight, _lengthSeconds),
+      navigationControl (_windowLeft, _windowRight, _lengthSeconds,
+          AudioFileNavigationControl::ControlFrameOfReference::totalLength),
       windowLeft (_windowLeft), windowRight (_windowRight),
       lengthSeconds (_lengthSeconds)
 {
-    setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::DraggingHandCursor));
     addAndMakeVisible (waveform);
     addAndMakeVisible (highlight);
-}
-
-AudioFileMiniMap::~AudioFileMiniMap() = default;
-
-double AudioFileMiniMap::getSecondsPerPixel() const
-{
-    return double (lengthSeconds.getValue()) / getWidth();
-}
-
-double AudioFileMiniMap::moveWindowLeftEdge (double numSeconds)
-{
-    double secondsMoved = 0.0;
-    if (numSeconds > 0.0) // Moving left edge right
-        secondsMoved = std::min (numSeconds, double (windowRight.getValue()));
-    else if (numSeconds < 0.0) // Moving left edge left
-        secondsMoved = std::max (numSeconds, -double (windowLeft.getValue()));
-
-    windowLeft = double (windowLeft.getValue()) + secondsMoved;
-    return secondsMoved;
-}
-
-double AudioFileMiniMap::moveWindowRightEdge (double numSeconds)
-{
-    double secondsMoved = 0.0;
-    if (numSeconds > 0.0) // Moving right edge right
-        secondsMoved = std::min (numSeconds, double (lengthSeconds.getValue()) - double (windowRight.getValue()));
-    else if (numSeconds < 0.0) // Moving right edge left
-        secondsMoved = std::max (numSeconds, double (windowLeft.getValue()) - double (windowRight.getValue()));
-
-    windowRight = double (windowRight.getValue()) + secondsMoved;
-    return secondsMoved;
+    addAndMakeVisible (navigationControl);
 }
 
 void AudioFileMiniMap::resized()
 {
     waveform.setBounds (getLocalBounds());
     highlight.setBounds (getLocalBounds());
-}
-
-void AudioFileMiniMap::mouseDown (const MouseEvent& event)
-{
-    setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::NoCursor));
-    lastMouseDragOffset = event.getOffsetFromDragStart();
-}
-
-void AudioFileMiniMap::mouseUp (const MouseEvent& event)
-{
-    setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::DraggingHandCursor));
-}
-
-void AudioFileMiniMap::mouseDrag (const MouseEvent& event)
-{
-    Point<int> dragDelta = event.getOffsetFromDragStart() - lastMouseDragOffset;
-
-    if (dragDelta.getX() > 0)
-    {
-        moveWindowRightEdge (getSecondsPerPixel());
-        moveWindowLeftEdge (getSecondsPerPixel());
-    }
-    else if (dragDelta.getX() < 0)
-    {
-        moveWindowLeftEdge (-getSecondsPerPixel());
-        moveWindowRightEdge (-getSecondsPerPixel());
-    }
-
-    if (dragDelta.getY() > 0) // Zoom in
-    {
-        moveWindowLeftEdge (getSecondsPerPixel());
-        moveWindowRightEdge (-getSecondsPerPixel());
-    }
-    else if (dragDelta.getY() < 0) // Zoom out
-    {
-        moveWindowLeftEdge (-getSecondsPerPixel());
-        moveWindowRightEdge (getSecondsPerPixel());
-    }
-
-    lastMouseDragOffset = event.getOffsetFromDragStart();
+    navigationControl.setBounds (getLocalBounds());
 }
