@@ -18,11 +18,11 @@
 #include "AudioFileMiniMap.h"
 
 AudioFileMiniMap::AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
-    AudioThumbnailCache& cacheToUse, Value _windowLeft, Value _windowRight,
-    Value _lengthSeconds, Value _filename)
+    AudioThumbnailCache& cacheToUse, Value _sampleRate, Value _windowLeft,
+    Value _windowRight, Value _lengthSeconds, Value _filename)
     : waveform (formatManagerToUse, cacheToUse, _filename),
       highlight (_windowLeft, _windowRight, _lengthSeconds),
-      navigationControl (_windowLeft, _windowRight, _lengthSeconds,
+      navigationControl (_sampleRate, _windowLeft, _windowRight, _lengthSeconds,
           AudioFileNavigationControl::ControlFrameOfReference::totalLength),
       windowLeft (_windowLeft), windowRight (_windowRight),
       lengthSeconds (_lengthSeconds)

@@ -31,12 +31,14 @@ public:
         totalLength
     };
 
-    AudioFileNavigationControl (Value windowLeft, Value windowRight,
-        Value lengthSeconds, ControlFrameOfReference frameOfReference);
+    AudioFileNavigationControl (Value sampleRate, Value windowLeft,
+        Value windowRight, Value lengthSeconds,
+        ControlFrameOfReference frameOfReference);
 
     ControlFrameOfReference frameOfReference;
 
 private:
+    Value sampleRate;
     Value windowLeft;
     Value windowRight;
     Value lengthSeconds;
@@ -44,6 +46,7 @@ private:
     Point<int> lastMouseDragOffset;
 
     double getSecondsPerPixel() const;
+    double getSecondsPerSample() const;
     double moveWindowLeftEdge (double numSeconds);
     double moveWindowRightEdge (double numSeconds);
 

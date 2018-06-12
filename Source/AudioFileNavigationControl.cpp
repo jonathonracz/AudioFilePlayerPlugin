@@ -17,11 +17,12 @@
 
 #include "AudioFileNavigationControl.h"
 
-AudioFileNavigationControl::AudioFileNavigationControl (Value _windowLeft,
-    Value _windowRight, Value _lengthSeconds,
+AudioFileNavigationControl::AudioFileNavigationControl (Value _sampleRate,
+    Value _windowLeft, Value _windowRight, Value _lengthSeconds,
     ControlFrameOfReference _frameOfReference)
-    : frameOfReference (_frameOfReference), windowLeft (_windowLeft),
-      windowRight (_windowRight), lengthSeconds (_lengthSeconds)
+    : frameOfReference (_frameOfReference), sampleRate (_sampleRate),
+      windowLeft (_windowLeft), windowRight (_windowRight),
+      lengthSeconds (_lengthSeconds)
 {
     setMouseCursor (MouseCursor (MouseCursor::StandardCursorType::DraggingHandCursor));
 }
@@ -47,11 +48,16 @@ double AudioFileNavigationControl::getSecondsPerPixel() const
     return length / getWidth();
 }
 
+double AudioFileNavigationControl::getSecondsPerSample() const
+{
+    return 1.0 / double (sampleRate.getValue());
+}
+
 double AudioFileNavigationControl::moveWindowLeftEdge (double numSeconds)
 {
     double secondsMoved = 0.0;
     if (numSeconds > 0.0) // Moving left edge right
-        secondsMoved = std::min (numSeconds, double (windowRight.getValue()));
+        secondsMoved = std::min (numSeconds, double (windowRight.getValue()) - getSecondsPerSample());
     else if (numSeconds < 0.0) // Moving left edge left
         secondsMoved = std::max (numSeconds, -double (windowLeft.getValue()));
 
@@ -65,7 +71,7 @@ double AudioFileNavigationControl::moveWindowRightEdge (double numSeconds)
     if (numSeconds > 0.0) // Moving right edge right
         secondsMoved = std::min (numSeconds, double (lengthSeconds.getValue()) - double (windowRight.getValue()));
     else if (numSeconds < 0.0) // Moving right edge left
-        secondsMoved = std::max (numSeconds, double (windowLeft.getValue()) - double (windowRight.getValue()));
+        secondsMoved = std::max (numSeconds, double (windowLeft.getValue()) - double (windowRight.getValue()) + getSecondsPerSample());
 
     windowRight = double (windowRight.getValue()) + secondsMoved;
     return secondsMoved;

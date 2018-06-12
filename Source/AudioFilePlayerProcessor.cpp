@@ -33,6 +33,7 @@ AudioFilePlayerProcessor::AudioFilePlayerProcessor()
       thumbnailCache (std::numeric_limits<int>::max()),
       audioFileName (state, IDs::AudioFileName, nullptr, {}),
       audioFileLoaded (state, IDs::AudioFileLoaded, nullptr, false),
+      audioFileSampleRate (state, IDs::AudioFileSampleRate, nullptr, 0.0),
       audioFileLengthSeconds (state, IDs::AudioFileLengthSeconds, nullptr, 0.0),
       audioFileLeftViewSecond (state, IDs::AudioFileLeftViewSecond, nullptr, 0.0),
       audioFileRightViewSecond (state, IDs::AudioFileRightViewSecond, nullptr, 0.0)
@@ -143,17 +144,23 @@ void AudioFilePlayerProcessor::valueTreePropertyChanged (ValueTree &treeWhosePro
     {
         suspendProcessing (true);
 
+        audioFileName.forceUpdateOfCachedValue();
         audioFileLoaded = false;
+        audioFileSampleRate = 0.0;
+        audioFileLengthSeconds = 0.0;
+        audioFileLeftViewSecond = 0.0;
+        audioFileRightViewSecond = 0.0;
+
         audioTransport.setSource (nullptr);
         audioSource.reset();
         thumbnailCache.clear();
 
-        audioFileName.forceUpdateOfCachedValue();
         AudioFormatReader* rawReader = formatManager.createReaderFor (File (audioFileName));
         if (rawReader)
         {
             audioSource = std::make_unique<AudioFormatReaderSource> (rawReader, true);
             audioTransport.setSource (audioSource.get(), 32768, &audioStreamThread, rawReader->sampleRate, rawReader->numChannels);
+            audioFileSampleRate = rawReader->sampleRate;
             audioFileLoaded = true;
             audioFileLengthSeconds = audioTransport.getLengthInSeconds();
             audioFileLeftViewSecond = 0.0;

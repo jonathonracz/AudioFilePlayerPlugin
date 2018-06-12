@@ -25,6 +25,7 @@ namespace IDs
 
     DEFINE_ID (AudioFileName)
     DEFINE_ID (AudioFileLoaded)
+    DEFINE_ID (AudioFileSampleRate)
     DEFINE_ID (AudioFileLengthSeconds)
     DEFINE_ID (AudioFileLeftViewSecond)
     DEFINE_ID (AudioFileRightViewSecond)

@@ -26,8 +26,8 @@ class AudioFileMiniMap  : public Component
 {
 public:
     AudioFileMiniMap (AudioFormatManager& formatManagerToUse,
-        AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
-        Value lengthSeconds, Value filename);
+        AudioThumbnailCache& cacheToUse, Value sampleRate, Value windowLeft,
+        Value windowRight, Value lengthSeconds, Value filename);
 
 private:
     AudioFileMiniMapWaveform waveform;

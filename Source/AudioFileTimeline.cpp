@@ -18,11 +18,11 @@
 #include "AudioFileTimeline.h"
 
 AudioFileTimeline::AudioFileTimeline (AudioFormatManager& formatManagerToUse,
-    AudioThumbnailCache& cacheToUse, Value windowLeft, Value windowRight,
-    Value lengthSeconds, Value filename)
+    AudioThumbnailCache& cacheToUse, Value sampleRate, Value windowLeft,
+    Value windowRight, Value lengthSeconds, Value filename)
     : waveform (formatManagerToUse, cacheToUse, windowLeft, windowRight,
           filename),
-      navigationControl (windowLeft, windowRight, lengthSeconds,
+      navigationControl (sampleRate, windowLeft, windowRight, lengthSeconds,
           AudioFileNavigationControl::ControlFrameOfReference::windowLength)
 {
     addAndMakeVisible (waveform);

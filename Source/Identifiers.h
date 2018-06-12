@@ -27,6 +27,7 @@ namespace IDs
 
     DECLARE_ID (AudioFileName)
     DECLARE_ID (AudioFileLoaded)
+    DECLARE_ID (AudioFileSampleRate)
     DECLARE_ID (AudioFileLengthSeconds)
     DECLARE_ID (AudioFileLeftViewSecond)
     DECLARE_ID (AudioFileRightViewSecond)

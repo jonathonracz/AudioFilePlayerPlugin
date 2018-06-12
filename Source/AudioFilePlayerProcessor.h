@@ -68,6 +68,7 @@ private:
 
     CachedValue<String> audioFileName;
     CachedValue<bool> audioFileLoaded;
+    CachedValue<double> audioFileSampleRate;
     CachedValue<double> audioFileLengthSeconds;
     CachedValue<double> audioFileLeftViewSecond;
     CachedValue<double> audioFileRightViewSecond;
